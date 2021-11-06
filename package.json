@@ -9,6 +9,7 @@
     "start": "parcel ./src/index.html"
   },
   "devDependencies": {
+    "alpinejs": "^3.5.0",
     "del-cli": "^4.0.1",
     "parcel": "^2.0.0",
     "posthtml-doctype": "^1.1.1",
