@@ -1,0 +1,18 @@
+{
+  "plugins": {
+    "posthtml-doctype": {
+      "doctype": "HTML 5"
+    },
+    "posthtml-hash": {
+      "path": "public",
+      "hashLength": 8
+    },
+    "posthtml-include": {},
+    "posthtml-lazyload": {},
+    "posthtml-noopener": {},
+    "posthtml-noscript": {
+      "content": "You need to enable JavaScript to get the most out of this app."
+    },
+    "posthtml-w3c": {}
+  }
+}

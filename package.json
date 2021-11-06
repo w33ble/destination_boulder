@@ -1,0 +1,22 @@
+{
+  "name": "destination_boulder",
+  "version": "1.0.0",
+  "repository": "git@github.com:w33ble/destination_boulder.git",
+  "author": "Joe Fleming <github@joefleming.net>",
+  "license": "MIT",
+  "scripts": {
+    "build": "del dist && parcel build --public-url ./ ./src/index.html --dist-dir dist",
+    "start": "parcel ./src/index.html"
+  },
+  "devDependencies": {
+    "del-cli": "^4.0.1",
+    "parcel": "^2.0.0",
+    "posthtml-doctype": "^1.1.1",
+    "posthtml-hash": "^1.2.2",
+    "posthtml-include": "^1.7.2",
+    "posthtml-lazyload": "^1.0.10",
+    "posthtml-noopener": "^1.0.5",
+    "posthtml-noscript": "^0.2.4",
+    "posthtml-w3c": "^0.9.1"
+  }
+}
