@@ -4,14 +4,14 @@
   "repository": "git@github.com:w33ble/destination_boulder.git",
   "author": "Joe Fleming <github@joefleming.net>",
   "license": "MIT",
+  "type": "module",
+  "main": "server.js",
   "scripts": {
-    "build": "del dist && parcel build --public-url ./ ./src/index.html --dist-dir dist",
-    "start": "parcel ./src/index.html"
+    "build": "del public && parcel build --public-url ./ ./src/index.html --dist-dir public",
+    "dev": "nodemon server"
   },
   "devDependencies": {
     "alpinejs": "^3.5.0",
-    "del-cli": "^4.0.1",
-    "parcel": "^2.0.0",
     "posthtml-doctype": "^1.1.1",
     "posthtml-hash": "^1.2.2",
     "posthtml-include": "^1.7.2",
@@ -19,5 +19,9 @@
     "posthtml-noopener": "^1.0.5",
     "posthtml-noscript": "^0.2.4",
     "posthtml-w3c": "^0.9.1"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-posthtml": "^1.1.0"
   }
 }

@@ -1,4 +1,4 @@
-dist/
+public/
 
 # Logs
 logs
@@ -125,7 +125,8 @@ dist
 .LSOverride
 
 # Icon must end with two \r
-Icon
+Icon
+
 
 # Thumbnails
 ._*
