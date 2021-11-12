@@ -4,7 +4,7 @@ import Alpine from 'https://unpkg.com/alpinejs@3.5.1/dist/module.esm.js'
 window.Alpine = Alpine
 
 document.addEventListener('alpine:init', () => {
-  console.log('alpine is started')
+  document.querySelector('#content').style.display = 'block'
 })
 
 Alpine.start()
