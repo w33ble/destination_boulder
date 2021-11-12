@@ -12,8 +12,7 @@
   "engines": {
     "node": "14.x"
   },
-  "devDependencies": {
-  },
+  "devDependencies": {},
   "dependencies": {
     "express": "^4.17.1",
     "express-posthtml": "^1.1.0",
@@ -21,6 +20,7 @@
     "posthtml-hash": "^1.2.2",
     "posthtml-include": "^1.7.2",
     "posthtml-lazyload": "^1.0.10",
+    "posthtml-modules": "^0.7.6",
     "posthtml-noopener": "^1.0.5",
     "posthtml-noscript": "^0.2.4",
     "posthtml-w3c": "^0.9.1"

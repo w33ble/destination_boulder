@@ -1,29 +1,4 @@
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootswatch@5.1.3/dist/flatly/bootstrap.css"
-      integrity="sha256-ZMColkLaMHOtjTIduPRy2wxmTFU4JXKtB3cbLiI+Y6I="
-      crossorigin="anonymous"
-    />
-
-    <title>Document</title>
-  </head>
-  <body>
-    <include src="src/components/navbar.html">{"active":"home"}</include>
-
-    <h1>Index</h1>
-
-    <!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js" integrity="sha384-7+zCNj/IqJ95wo16oMtfsKbZ9ccEh31eOz1HGyDuCQ6wgnyJNSYdrPa03rtR1zdB" crossorigin="anonymous"></script> -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"
-      integrity="sha384-QJHtvGhmr9XOIpI6YVutG+2QOK9T+ZnN4kzFN1RtK3zEFEIsxhlmWl5/YESvpZ13"
-      crossorigin="anonymous"
-    ></script>
-    <script type="module" src="/js/main.js"></script>
-  </body>
-</html>
+<module href="src/modules/site.html">
+  <module href="src/modules/navbar.html" locals='{"active":"home"}'></module>
+  <h1>Index</h1>
+</module>

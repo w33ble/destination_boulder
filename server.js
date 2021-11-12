@@ -2,10 +2,10 @@ import express from 'express'
 import posthtml from 'express-posthtml'
 import phdoctype from 'posthtml-doctype'
 import phhash from 'posthtml-hash'
-import phinclude from 'posthtml-include'
 import phlazyload from 'posthtml-lazyload'
 import phnoopener from 'posthtml-noopener'
 import phnoscript from 'posthtml-noscript'
+import phmodules from 'posthtml-modules'
 
 const port = process.env.PORT || 8080
 
@@ -20,7 +20,7 @@ const plugins = [
     "path": "public",
     "hashLength": 8
   }),
-  phinclude({}),
+  phmodules(),
   phlazyload(),
   phnoopener.default(),
   phnoscript.default({
