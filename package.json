@@ -7,11 +7,16 @@
   "type": "module",
   "main": "server.js",
   "scripts": {
-    "build": "del public && parcel build --public-url ./ ./src/index.html --dist-dir public",
     "dev": "nodemon server"
   },
+  "engines": {
+    "node": "14.x"
+  },
   "devDependencies": {
-    "alpinejs": "^3.5.0",
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-posthtml": "^1.1.0",
     "posthtml-doctype": "^1.1.1",
     "posthtml-hash": "^1.2.2",
     "posthtml-include": "^1.7.2",
@@ -19,9 +24,5 @@
     "posthtml-noopener": "^1.0.5",
     "posthtml-noscript": "^0.2.4",
     "posthtml-w3c": "^0.9.1"
-  },
-  "dependencies": {
-    "express": "^4.17.1",
-    "express-posthtml": "^1.1.0"
   }
 }
