@@ -44,4 +44,4 @@ app.use(express.static('src/public', { fallthrough: false }))
 
 // start server
 app.listen(port)
-console.log(`Server listening on port ${port}`)
+console.log(`Server listening on port ${port} (${app.get('env')})`)
