@@ -1,9 +1,9 @@
 import gqlQuery from './gqlQuery.js'
-import { Loader } from 'https://cdn.jsdelivr.net/npm/@googlemaps/js-api-loader@1.12.9/dist/index.esm.js'
 
 document.addEventListener('alpine:init', async () => {
   Alpine.data('maps', () => ({
     loaded: false,
+    map: null,
     async init() {
       // initialize google maps
       const options = {
@@ -11,17 +11,25 @@ document.addEventListener('alpine:init', async () => {
           lat: 40.0289103,
           lng: -105.2377461,
         },
-        zoom: 11,
+        zoom: 9,
       }
-      const loader = new Loader({
-        apiKey: "AIzaSyDdxXbvuh1sCOR8rA6p1D6AQjI6EoGBUvM",
-        version: "weekly",
-        libraries: ["places"]
-      });
-      const google = await loader.load()
 
-      new google.maps.Map(document.getElementById("mapTarget"), options);
-      this.loaded = true
+
+      mapboxgl.accessToken = 'pk.eyJ1IjoidzMzYmxlIiwiYSI6ImNrdzJpa2RjdjBkejEycXA4ajZvODM4MnYifQ.WI0Ma64icuiJ7CtjycEWdw'
+
+      this.$nextTick(() => {
+        this.map = new mapboxgl.Map({
+          container: 'mapTarget', // container ID
+          style: 'mapbox://styles/mapbox/streets-v11', // style URL
+          center: [options.center.lng, options.center.lat], // starting position [lng, lat]
+          zoom: options.zoom // starting zoom
+        });
+        this.loaded = true
+
+        new mapboxgl.Marker()
+          .setLngLat([options.center.lng, options.center.lat])
+          .addTo(this.map);
+      })
     },
   }))
 
