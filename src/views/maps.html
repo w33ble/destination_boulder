@@ -1,7 +1,19 @@
 <module href="src/modules/site.html">
   <module href="src/modules/navbar.html" locals='{"active":"maps"}'></module>
-  <div>
-    <h1>Maps</h1>
+
+  <style>
+    #mapTarget {
+      width: 100%;
+      height: 80vh;
+      max-height: 100%;
+      background-color: #f0f0f0;
+    }
+  </style>
+
+  <div x-data="maps">
+    <div x-text="!loaded ? 'LOADING...' : 'HEADER'"></div>
+    <div x-ref="mapTarget" id="mapTarget"></div>
   </div>
+
   <script type="module" src="/js/maps.js"></script>
 </module>
