@@ -1,4 +1,16 @@
 // borrowed from https://github.com/nordsimon/graphql-client/blob/master/index.js
+
+class QueryError extends Error {
+  constructor(payload) {
+    const msg = payload.errors[0]?.message ? `Query failed, ${payload.errors[0].message}` : 'Query failed'
+    super(msg)
+
+    Object.setPrototypeOf(this, QueryError.prototype);
+    this.errors = payload.errors
+    this.data = payload.data || null
+  }
+}
+
 export default function gqlQuery(url, opts = {}) {
   if (!url) throw new Error('Missing url parameter')
 
@@ -24,6 +36,12 @@ export default function gqlQuery(url, opts = {}) {
       throw new Error(`Query failed (${res.status}) ${await res.text()}`)
     }
 
-    return res.json()
+    const body = await res.json()
+
+    if (body.errors) {
+      throw new QueryError( body)
+    }
+
+    return body
   }
 }
