@@ -1,4 +1,22 @@
 <module href="src/modules/site.html">
   <module href="src/modules/navbar.html" locals='{"active":"home"}'></module>
-  <h1>Index</h1>
+
+  <div id="home" class="container" x-data="home">
+    <h1>Index</h1>
+
+    <p>Set your access token here, or head over to the map using the navigation at the top.</p>
+
+    <form action="#" @submit.prevent="setToken">
+      <div class="row">
+        <div class="col-8">
+          <input type="text" placeholder="Enter your token" class="form-control" x-model="token">
+        </div>
+        <div class="col-4">
+          <button type="submit" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script type="module" src="/js/home.js"></script>
 </module>
