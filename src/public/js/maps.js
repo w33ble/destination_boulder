@@ -1,6 +1,25 @@
 import gqlQuery from './gqlQuery.js'
+import debounce from 'https://cdn.jsdelivr.net/npm/tinybounce@1.2.0/dist/tinybounce.js'
 
 document.addEventListener('alpine:init', async () => {
+  // the click handler keeps firing twice, maybe it's a bug in alpine or something
+  // i'm too lazy to figure it out, so we'll just debounce the operation
+  const deleteLocation = debounce(async function deleteLocationRaw(client, id, cb) {
+    // confirm delete
+    const answer = confirm(`Are you sure you want to remove this location?`)
+    if (!answer) return
+
+    client(`
+      mutation remove($id: Int!) {
+        delete_locations_by_pk(id: $id) {
+          id
+        }
+      }
+    `, { id })
+      .then(res => cb(null, res))
+      .catch(err => cb(err))
+  }, 250)
+
   Alpine.data('maps', () => ({
     token: null,
     map: null,
@@ -78,21 +97,25 @@ document.addEventListener('alpine:init', async () => {
         .setLngLat([lng, lat])
         .addTo(this.map);
 
-      this.points.push(marker)
+      this.points.push({ id: location.id, marker })
 
       if (location.isPOI) {
         marker.setPopup(new mapboxgl.Popup().setHTML(`<h3>${location.title}</h3>`))
       } else {
+        console.log('render', location.id)
         marker.setPopup(new mapboxgl.Popup().setHTML(`<h3>${location.title}</h3>
         <p>${location.address}</p>
         ${location.price ? `<p><strong>$${location.price} / mo</strong></p>` : ''}
         ${location.notes ? `<p><em>${location.notes}</em></p>` : ''}
-        <p><a target="_blank" rel="noopener noreferrer" href="${location.url}">${location.url.substring(0, 26)}...</a></p>
+        <p><a class="btn btn-primary btn-full" target="_blank" rel="noopener noreferrer" href="${location.url}">Visit</a></p>
+        <p x-show="token">
+          <button class="btn btn-danger btn-sm btn-full" @click.stop="removeLocation(${location.id})">Remove</button>
+        </p>
         `))
       }
     },
     clearPoints() {
-      this.points.forEach(p => p.remove())
+      this.points.forEach(p => p.marker.remove())
     },
     async addLocation() {
       // close the modal
@@ -125,6 +148,21 @@ document.addEventListener('alpine:init', async () => {
         console.error(error)
         alert('Failed to add location, check the logs')
       }
+    },
+    async removeLocation(id) {
+      const res = await deleteLocation(this.client, id, (err, res) => {
+        if (err) {
+          console.error(err)
+          alert('Failed to delete location, check the logs')
+          return
+        }
+
+        const point = this.points.find(p => p.id === id)
+
+        if (point) {
+          point.marker.remove()
+        }
+      })
     }
   }))
 })
