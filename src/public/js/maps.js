@@ -94,11 +94,37 @@ document.addEventListener('alpine:init', async () => {
     clearPoints() {
       this.points.forEach(p => p.remove())
     },
-    addLocation() {
+    async addLocation() {
       // close the modal
       const myModal = bootstrap.Modal.getInstance(this.$refs.addLocationModal).hide()
 
-      alert('not implemented yet...')
+      // grab form input values the lazy way
+      const form = this.$refs.addLocationForm
+      const inputs = form.querySelectorAll('input')
+      const [title, address, url, cost, poi, notes] = Array.from(inputs).map((i) => i.checked || i.value)
+      const isPOI = Boolean(poi)
+
+      try {
+        const res = await this.client(`
+          mutation saveLocation($title: String, $address: String, $url: String, $notes: String, $price: numeric, $isPOI: Boolean) {
+            insert_locations(objects: {
+              title: $title
+              address: $address
+              url: $url
+              notes: $notes
+              price: $price
+              isPOI: $isPOI
+            }) {
+              affected_rows
+            }
+          }
+        `, {
+          title, address, url, price: Number(cost) || null, isPOI, notes
+        })
+      } catch(error) {
+        console.error(error)
+        alert('Failed to add location, check the logs')
+      }
     }
   }))
 })
