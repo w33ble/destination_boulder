@@ -93,6 +93,12 @@ document.addEventListener('alpine:init', async () => {
     },
     clearPoints() {
       this.points.forEach(p => p.remove())
+    },
+    addLocation() {
+      // close the modal
+      const myModal = bootstrap.Modal.getInstance(this.$refs.addLocationModal).hide()
+
+      alert('not implemented yet...')
     }
   }))
 })
