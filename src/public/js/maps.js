@@ -90,6 +90,11 @@ document.addEventListener('alpine:init', async () => {
       locations.forEach(l => this.addPoint(l))
     },
     addPoint(location) {
+      if (!location.geolocation) {
+        console.log(`Skipping marker, geolocation missing: ${location.id}`)
+        return
+      }
+
       const [lat, lng] = location.geolocation.split(',')
       const marker = new mapboxgl.Marker({
         color: location.isPOI ? '#633987' : '#2689AD'
