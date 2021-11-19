@@ -133,8 +133,13 @@ document.addEventListener('alpine:init', async () => {
       const [title, address, url, cost, poi, notes] = Array.from(inputs).map((i) => i.checked || i.value)
       const isPOI = Boolean(poi)
 
+      if (!address) {
+        alert('You must enter an address')
+        return
+      }
+
       try {
-        const res = await this.client(`
+        await this.client(`
           mutation saveLocation($title: String, $address: String, $url: String, $notes: String, $price: numeric, $isPOI: Boolean) {
             insert_locations(objects: {
               title: $title
@@ -150,7 +155,9 @@ document.addEventListener('alpine:init', async () => {
         `, {
           title, address, url, price: Number(cost) || null, isPOI, notes
         })
-      } catch(error) {
+
+        form.reset()
+      } catch (error) {
         console.error(error)
         alert('Failed to add location, check the logs')
       }
