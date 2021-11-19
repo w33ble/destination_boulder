@@ -2,9 +2,12 @@ import gqlQuery from './gqlQuery.js'
 
 document.addEventListener('alpine:init', async () => {
   Alpine.data('maps', () => ({
+    token: null,
     map: null,
     client: null,
     loaded: false,
+    refreshing: false,
+    points: [],
     async init() {
       // initialize google maps
       const options = {
@@ -15,10 +18,11 @@ document.addEventListener('alpine:init', async () => {
         zoom: 11,
       }
 
-
       mapboxgl.accessToken = 'pk.eyJ1IjoidzMzYmxlIiwiYSI6ImNrdzJpa2RjdjBkejEycXA4ajZvODM4MnYifQ.WI0Ma64icuiJ7CtjycEWdw'
 
       this.$nextTick(async () => {
+        this.token = window.localStorage.getItem('hasura-admin-secret')
+
         this.map = new mapboxgl.Map({
           container: 'mapTarget', // container ID
           style: 'mapbox://styles/mapbox/streets-v11', // style URL
@@ -28,15 +32,19 @@ document.addEventListener('alpine:init', async () => {
 
         this.client = gqlQuery('https://intense-sparrow-57.hasura.app/v1/graphql')
 
-        this.loaded = true
-
         await this.getLocations()
+
+        this.loaded = true
       })
     },
     async getLocations() {
       let locations = []
 
       try {
+        this.refreshing = true
+
+        this.clearPoints()
+
         const res = await this.client(`
           query getalllocations {
             locations {
@@ -53,6 +61,7 @@ document.addEventListener('alpine:init', async () => {
         `)
 
         locations = res.data.locations
+        this.refreshing = false
       } catch (error) {
         console.error(error)
         alert('Location query failed, check the logs')
@@ -69,6 +78,8 @@ document.addEventListener('alpine:init', async () => {
         .setLngLat([lng, lat])
         .addTo(this.map);
 
+      this.points.push(marker)
+
       if (location.isPOI) {
         marker.setPopup(new mapboxgl.Popup().setHTML(`<h3>${location.title}</h3>`))
       } else {
@@ -79,6 +90,9 @@ document.addEventListener('alpine:init', async () => {
         <p><a target="_blank" rel="noopener noreferrer" href="${location.url}">${location.url.substring(0, 26)}...</a></p>
         `))
       }
+    },
+    clearPoints() {
+      this.points.forEach(p => p.remove())
     }
   }))
 })

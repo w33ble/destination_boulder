@@ -10,15 +10,29 @@
     }
   </style>
 
-  <div x-data="maps">
-    <div x-text="!loaded ? 'LOADING...' : 'HEADER'"></div>
-    <div x-ref="mapTarget" id="mapTarget"></div>
+  <div class="container-fluid px-0 gx-0" x-data="maps">
+    <div class="spinner-border text-primary" role="status" x-show="!loaded || refreshing">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+
+    <div class="row" x-show="loaded && !refreshing">
+      <div :class="token ? 'col-6' : 'col-12'">
+        <button class="btn btn-light btn-full" @click.prevent="getLocations">Refresh</button>
+      </div>
+      <div class="col-6" x-show="token">
+        <button class="btn btn-light btn-full">Add Location</button>
+      </div>
+    </div>
+
+    <div id="mapTarget" x-ref="mapTarget"></div>
   </div>
 
   <script src="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.js"></script>
-  <link
-    href="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css"
-    rel="stylesheet"
-  />
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.6.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    .btn-full {
+      width: 100%;
+    }
+  </style>
   <script type="module" src="/js/maps.js"></script>
 </module>
