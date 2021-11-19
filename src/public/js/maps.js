@@ -121,6 +121,7 @@ document.addEventListener('alpine:init', async () => {
     },
     clearPoints() {
       this.points.forEach(p => p.marker.remove())
+      this.points = []
     },
     async addLocation() {
       // close the modal
